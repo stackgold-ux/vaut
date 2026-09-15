@@ -5,9 +5,11 @@ interface LoginScreenProps {
   onUnlock: (password: string) => Promise<boolean>;
   onCreate?: (password: string) => Promise<boolean>;
   isFirstTime?: boolean;
+  /** Shown as a link back to the account screen when entered via "continue locally". */
+  onBackToAccount?: () => void;
 }
 
-export const LoginScreen: React.FC<LoginScreenProps> = ({ onUnlock, onCreate, isFirstTime = false }) => {
+export const LoginScreen: React.FC<LoginScreenProps> = ({ onUnlock, onCreate, isFirstTime = false, onBackToAccount }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -82,6 +84,19 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({ onUnlock, onCreate, is
             )}
           </button>
         </form>
+
+        {onBackToAccount && (
+          <div className="mt-6 text-center">
+            <button
+              type="button"
+              onClick={onBackToAccount}
+              disabled={loading}
+              className="text-xs text-gray-500 hover:text-gray-300 transition-colors font-medium"
+            >
+              ← Back to account sign in
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
