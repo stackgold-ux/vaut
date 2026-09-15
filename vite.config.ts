@@ -5,6 +5,12 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // Expose only the safe Supabase config to the browser. SUPABASE_SECRET_KEY is
+  // deliberately NOT exposed here — it is read only by the edge function.
+  define: {
+    'import.meta.env.SUPABASE_URL': JSON.stringify(process.env.SUPABASE_URL ?? ''),
+    'import.meta.env.SUPABASE_PUBLISHABLE_KEY': JSON.stringify(process.env.SUPABASE_PUBLISHABLE_KEY ?? ''),
+  },
   plugins: [
     react(),
     tailwindcss(),
